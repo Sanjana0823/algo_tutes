@@ -27,7 +27,17 @@ public class FindMultiples {
      * Returns -1 if no such index exists
      */
     public static int findTriplicate(ArrayList<Integer> numbers){
-        // TO DO
+        for(int i = 0; i < numbers.size(); i++){
+            for(int j = 0; j < i; j++){
+                if(numbers.get(i) == numbers.get(j)){
+                    for (int k = 0; k < j; k++){
+                        if(numbers.get(j) == numbers.get(k)){
+                            return k; // Found triplicate
+                        }
+                    }
+                }
+            }
+        }
         return -1;  // Failure case
     }
 
@@ -47,7 +57,7 @@ public class FindMultiples {
      */
     public static void main(String[] args) {
         // How many values to generate
-        int numValues = 100000; 
+        int numValues = 100;
     // Whether the input should be shuffled
         boolean shuffle = true;
         // Whether to look for triplicate values
@@ -64,6 +74,9 @@ public class FindMultiples {
                 System.out.print(data.get(i) + " ");
             System.out.println();
         }
+
+        // Print the size of the data
+        System.out.println("Input size: " + data.size() + " (repeats: " + (triplicates ? 3 : 2) + ")");
         
         // Run one of the find functions; 
         // Check time before and after to measure runtime 
@@ -76,8 +89,7 @@ public class FindMultiples {
             System.out.println("Result: " + result + " (value: " + data.get(result) + ")");
         else
             System.out.println("Result: nothing found");
-        System.out.println("Elapsed time = " + elapsed + " seconds");        
-
+        System.out.println("Elapsed time = " + elapsed + " seconds"); 
     }
   
 }

@@ -32,7 +32,7 @@ public class FindMultiples {
                 if(numbers.get(i) == numbers.get(j)){
                     for (int k = 0; k < j; k++){
                         if(numbers.get(j) == numbers.get(k)){
-                            return k; // Found triplicate
+                            return i; // Found triplicate
                         }
                     }
                 }
@@ -57,11 +57,11 @@ public class FindMultiples {
      */
     public static void main(String[] args) {
         // How many values to generate
-        int numValues = 100;
+        int numValues = 20;
     // Whether the input should be shuffled
         boolean shuffle = true;
         // Whether to look for triplicate values
-        boolean triplicates = false;
+        boolean triplicates = true;
         // Whether to print data. Only use with small numbers of values.
         boolean printData = false; 
         
@@ -85,6 +85,15 @@ public class FindMultiples {
         int result = triplicates ? findTriplicate(data) : findDuplicate(data);
         long now = System.currentTimeMillis();
         double elapsed = (now - start) / 1000.0;
+        // Print the result
+        printData = true; // Set to true to print the data
+        if(printData){
+            System.out.print("Input values: ");
+            for(int i=0;i<data.size(); i++)
+                System.out.print(data.get(i) + " ");
+            System.out.println();
+        }
+        // Print the result
         if(result >= 0)
             System.out.println("Result: " + result + " (value: " + data.get(result) + ")");
         else

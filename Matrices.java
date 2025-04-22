@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package matrices;
 
-/**
- *
- * @author draegek
- */
 public class Matrices {
 
     public static void printMatrix(int[][] matrix){
@@ -19,7 +11,7 @@ public class Matrices {
             System.out.println();
         }
     }
-    
+
     public static int[][] multiply(int[][] A, int[][] B){
         int dimension = A.length;
         int[][] result = new int[dimension][dimension];
@@ -31,31 +23,61 @@ public class Matrices {
             }
         return result;
     }
-	
-	// Brute force version of matrix power
-	public static int[][] slowPower(int[][] matrix, int exponent){
-		// TO DO
-	}
-    
-	// Divide-and-conquer version of matrix power
-	public static int[][] fastPower(int[][] matrix, int exponent){
-		// TO DO
-	}
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-		// Try changing the dimension (needs to still be square) and exponent 
-		// to see how the runtime changes
-		int[][] matrix = {{1,2},{3,4}};  
-		int exponent = 1000000;          // 
-        long start = System.currentTimeMillis();
-		printMatrix(slowPower(matrix, exponent));
-		long middle = System.currentTimeMillis();
-		printMatrix(fastPower(matrix, exponent));
-		long end = System.currentTimeMillis();		
-		System.out.println("Runtimes (ms): " + (middle-start) + ", " + (end-middle));
+
+    // Brute force version of matrix power
+    public static int[][] slowPower(int[][] matrix, int exponent){
+        int dimension = matrix.length;
+        int[][] result = new int[dimension][dimension];
+
+        // Initialize result to identity matrix
+        for (int i = 0; i < dimension; i++)
+            result[i][i] = 1;
+
+        for (int i = 0; i < exponent; i++) {
+            result = multiply(result, matrix);
+        }
+
+        return result;
     }
-    
+
+    // Divide-and-conquer version of matrix power
+    public static int[][] fastPower(int[][] matrix, int exponent){
+        int dimension = matrix.length;
+        int[][] result = new int[dimension][dimension];
+
+        // Base case: exponent = 0 -> identity matrix
+        if (exponent == 0) {
+            for (int i = 0; i < dimension; i++)
+                result[i][i] = 1;
+            return result;
+        }
+
+        if (exponent == 1) {
+            return matrix;
+        }
+
+        int[][] halfPower = fastPower(matrix, exponent / 2);
+        int[][] fullPower = multiply(halfPower, halfPower);
+
+        if (exponent % 2 == 1) {
+            fullPower = multiply(fullPower, matrix);
+        }
+
+        return fullPower;
+    }
+
+    public static void main(String[] args) {
+        // Try changing the dimension (needs to still be square) and exponent 
+        // to see how the runtime changes
+        int[][] matrix = {{1, 2}, {3, 4}};  
+        int exponent = 10;
+
+        long start = System.currentTimeMillis();
+        printMatrix(slowPower(matrix, exponent));
+        long middle = System.currentTimeMillis();
+        printMatrix(fastPower(matrix, exponent));
+        long end = System.currentTimeMillis();		
+
+        System.out.println("Runtimes (ms): " + (middle-start) + ", " + (end-middle));
+    }
 }
